@@ -5,18 +5,12 @@ import SimpleITK as sitk
 import myshow
 import os
 import glob
-#Load module for segmentation
-
 from caller import call
-
 from importlib import reload
-from caller import call
-reload(call)
 import pandas as pd
 from IPython.display import clear_output
 from collections import Counter
 
-##############################################################
 
 def ShowGT(segmentations,flip_GT):
     for rater in segmentations:
