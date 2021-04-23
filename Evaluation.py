@@ -12,7 +12,14 @@ from IPython.display import clear_output
 from collections import Counter
 
 
-def ShowGT(segmentations,flip_GT):
+def ShowGT(segmentations,flip_GT = False):
+    """
+    Show every GT segmentation in the dictionary <segmentations>.
+    
+    @param segmentations: Dictionary with the structure segmentations{Rater,{Image,Segmentations}}
+    @param flip_GT: Boolean whether the GT needs to be flipped or not.
+  
+    """
     for rater in segmentations:
         print("  Rater: " + rater)
         for image_path in segmentations[rater]:  
@@ -30,10 +37,10 @@ def ShowGT(segmentations,flip_GT):
                 
                 
                 
-def GetMeasures(subset_name: str, segmentations: dict, rois_labels: dict, saving_path: str, GT_label_values = None,
-                debug_mode = False, flip_image = False, flip_GT = False, image_extension = ".mhd", GT_extension = ".mhd", model = "human_org"):
+def Evaluate(subset_name: str, segmentations: dict, rois_labels: dict, saving_path: str, GT_label_values = None,
+             debug_mode = False, flip_image = False, flip_GT = False, image_extension = ".mhd", GT_extension = ".mhd", model = "human_org"):
     """
-    Get Measures of applying Neural Network <call> to an image and its evaluation by 
+    Get Measures of applying a Neural Network model from <call> to an image and its evaluation by 
     SimpleITK filters (if you desired to know more about measures, 
     type <help(CalcStatistics)>). These measures will be stored in a list and then saved
     in a csv file. This csv file will be created at saving_path.
