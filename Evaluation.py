@@ -1,25 +1,24 @@
-
 import numpy as np
 import torch
 import SimpleITK as sitk
 import myshow
 import os
+import sys
 import glob
+
+#Load module for segmentation
 from caller import call
+
 from importlib import reload
+from caller import call
+reload(call)
 import pandas as pd
 from IPython.display import clear_output
 from collections import Counter
 
+##############################################################
 
-def ShowGT(segmentations,flip_GT = False):
-    """
-    Show every GT segmentation in the dictionary <segmentations>.
-    
-    @param segmentations: Dictionary with the structure segmentations{Rater,{Image,Segmentations}}
-    @param flip_GT: Boolean whether the GT needs to be flipped or not.
-  
-    """
+def ShowGT(segmentations,flip_GT):
     for rater in segmentations:
         print("  Rater: " + rater)
         for image_path in segmentations[rater]:  
@@ -37,10 +36,10 @@ def ShowGT(segmentations,flip_GT = False):
                 
                 
                 
-def Evaluate(subset_name: str, segmentations: dict, rois_labels: dict, saving_path: str, GT_label_values = None,
-             debug_mode = False, flip_image = False, flip_GT = False, image_extension = ".mhd", GT_extension = ".mhd", model = "human_org"):
+def GetMeasures(subset_name: str, segmentations: dict, rois_labels: dict, saving_path: str, GT_label_values = None,
+                debug_mode = False, flip_image = False, flip_GT = False, image_extension = ".mhd", GT_extension = ".mhd", model = "human_org"):
     """
-    Get Measures of applying a Neural Network model from <call> to an image and its evaluation by 
+    Get Measures of applying Neural Network <call> to an image and its evaluation by 
     SimpleITK filters (if you desired to know more about measures, 
     type <help(CalcStatistics)>). These measures will be stored in a list and then saved
     in a csv file. This csv file will be created at saving_path.
@@ -85,6 +84,7 @@ def Evaluate(subset_name: str, segmentations: dict, rois_labels: dict, saving_pa
     
     for rater in segmentations:
         for i, image_path in enumerate(segmentations[rater]):
+            print("Model: ", model)
             print('Image ' + str(i+1) + ' of ' + str(len(segmentations[rater])))
             print("  Image: " + image_path)
             
@@ -441,3 +441,43 @@ def GetLabelFromFile(image_path,GT_path):
         return l_values[indx]
     
     return GetLabelValue(path, label = "Lung")
+
+
+
+
+
+
+def ShowDataframeStats(path: str):
+
+    dataframes = glob.glob(path + "*")
+    if not dataframes:
+        sys.exit("There is no dataframe with the provided path!")    
+
+    dataframe = pd.read_csv(dataframes.pop(0))
+
+    for d in dataframes:
+        d1 = pd.read_csv(d)
+        dataframe = pd.concat([dataframe,d1])
+
+    print(dataframe.groupby(["Model", "ROI"]).agg({"dice": ["mean","max", "min",],}))
+    print()
+    print()
+      
+    for model in dataframe.Model.unique():
+        d1 = dataframe.copy()
+        d1 = d1[d1["Model"] == model]
+    
+        d2 = d1.copy()
+    
+        print("----------------------------------------------------------------------------")
+        print("                                 " + model)
+        print("----------------------------------------------------------------------------")
+        print("------------------------------- Minimum Dice -------------------------------")
+        print(d1[ d1['dice'] == d1['dice'].min() ] [['Image','Model',"ROI","GT","dice"]])
+        print()
+        print("------------------------------- Maximum Dice -------------------------------")
+        print(d2[ d2['dice'] == d2['dice'].max() ] [['Image','Model',"ROI","GT","dice"]])
+        print("----------------------------------------------------------------------------")
+        print()
+        print()
+        print()
