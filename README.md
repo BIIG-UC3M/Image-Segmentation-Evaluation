@@ -1,4 +1,4 @@
-# Segmentation-Evaluation
+# Image Segmentation-Evaluation
 Evaluating segmentation algorithms using SimpleITK filters
 
 ## Preparing images for evaluation
