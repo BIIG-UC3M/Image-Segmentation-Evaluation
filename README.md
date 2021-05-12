@@ -82,9 +82,11 @@ GetMeasures(subset_name: str, segmentations: dict, rois_labels: dict, saving_pat
     @return measures: List with above mentioned results. 
     """
 ```
-Images and GTs must have the following spacial location. If not, turn on flip_image and / or flip_GT. 
+Images and GTs must be in axial plane, as it is shown in the following pictures. If you need to rotate them, turn on flip_image and / or flip_GT. 
 
 <img width="1066" alt="spacial location" src="https://user-images.githubusercontent.com/72487236/117801374-1d136100-b24c-11eb-9f1a-6428b96cdb11.png">
+<img width="1066" alt="spacial location2" src="https://user-images.githubusercontent.com/72487236/117939847-61f8cf80-b300-11eb-8a4e-a14b9818c9b8.png">
+
 
 ## ShowDataframeStats
 ShowDataframeStats(path). This function makes a summary of the results obtained from applying the different models. It is neccesary to provide a common path where these results are located.
