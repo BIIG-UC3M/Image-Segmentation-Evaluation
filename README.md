@@ -33,54 +33,16 @@ for image in images:
 ```
 
 ## GetMeasures
-
+Get Measures of applying Neural Network <model> to an image and its evaluation by SimpleITK filters. These measures will be saved in a csv file. Here is an example of how to apply this method. 
 ```python 3
-GetMeasures(subset_name: str, segmentations: dict, rois_labels: dict, saving_path: str, 
-            GT_label_values = None, debug_mode = False, flip_image = False, flip_GT = False,
-            image_extension = ".mhd", GT_extension = ".mhd", model = "human_org"):
-    """
-    Get Measures of applying Neural Network <model> to an image and its evaluation by 
-    SimpleITK filters (if you desired to know more about measures, 
-    type <help(CalcStatistics)>). These measures will be stored in a list and then saved
-    in a csv file. This csv file will be created at saving_path.
+
+rois_labels = {1:"Right_Lung", 2:"Left_Lung", 3:"Both_Lungs"}
+GT_label_values = [2,3]
+saving_path = "/path/results"
     
-    @param subset_name: Desired name for the csv file.
-    
-    @param segmentations: It is a dictionary with the following structure: 
-                          segmentations = {Rater,{Image,GT_paths[]}}
-                          *Important* Even if there is only one GT path, it
-                          must be a list. 
-                          
-    @param rois_labels: It is a dictionary with the following structure: 
-                          rois_labels = {Key:"ROI_Label"}
-                          ROI_Label must be in ["Right_Lung", "Left_Lung","Both_Lungs"]
-                          
-    @param saving_path: Path where the csv will be saved.
-    
-    
-    
-    Optional parameters:
-        @param GT_label_values: Original GT's labels values. They must be provided in this
-                                way: [Left Lung,Right Lung]. If they are not provided,
-                                they will be obtained automatically from the GT mask.
-    
-        @param debug_mode: Set it <True> to activate debug mode.
-        
-        @param flip_image: Set it <True> to flip images.
-        
-        @param flip_GT: Set it <True> to flip GT masks.
-        
-        @param image_extension: Default value is ".mhd". Accepted extensions are 
-                                ".mhd" and ".dcm".
-                                
-        @param GT_extension: Default value is ".mhd". Accepted extensions are 
-                                ".mhd" and ".dcm".
-        
-        @param model: Default value is "human_org".
-    
-    
-    @return measures: List with above mentioned results. 
-    """
+measures = GetMeasures(subset_name, segmentations, rois_labels, saving_path, GT_label_values = GT_label_values,
+                       debug_mode = False, flip_image = True, flip_GT = True, image_extension = ".mhd", GT_extension = ".mhd")
+
 ```
 Images and GTs must be in axial plane, as it is shown in the following pictures. If you need to rotate them, turn on flip_image and / or flip_GT. 
 
@@ -89,10 +51,10 @@ Images and GTs must be in axial plane, as it is shown in the following pictures.
 
 
 ## ShowDataframeStats
-ShowDataframeStats(path). This function makes a summary of the results obtained from applying the different models. It is neccesary to provide a common path where these results are located.
+This function makes a summary of the results obtained from applying the different models. It is neccesary to provide a common path where these results are located.
 
 
-For example
+For example:
 
 <pre>
                                 dice                    
@@ -132,9 +94,15 @@ mix_TL_mic      Both_Lungs  0.897843  0.980992  0.636253
                                     .
                                     .
                                     .
-<pre>
+</pre>
 
 ## ShowGT
-ShowGT(segmentations, flip_GT). This function show all GTs that are in <segmentations>. 
+
+This function show all GTs that are in the dictionary _segmentations_ and their labels. 
+
+```python 3
+ShowGT(segmentations,flip_GT)
+```
+    
 <img width="995" alt="showGT" src="https://user-images.githubusercontent.com/72487236/117799476-0e2baf00-b24a-11eb-9d1c-5c47b10c038a.png">
 
