@@ -1,15 +1,21 @@
 # Image Segmentation-Evaluation
-Evaluating segmentation algorithms using SimpleITK filters (Python) and results of statistical analyses (R) in order to demonstrate the statistical significance of comparisons between used models.
+Evaluating segmentation algorithms using SimpleITK filters (Python) and results of statistical analysis (R) in order to demonstrate the statistical significance of comparisons between used models.
 
 ---
-TOC
+# Table of contents
+- [Evaluation](#Evaluation)
+    - [Preparing images for evaluation](#Preparing)
+    - [Get Measures](#GetMeasures)
+    - [Show Dataframe Stats](#ShowDataframeStats)
+    - [Show GT](#ShowGT)
+- [Statistical Analysis](#Analysis)
 
 ---
 
 
-# Evaluation
-
-## Preparing images for evaluation
+# Evaluation <a name="Evaluation"></a>
+The python library can be found [here](./Evaluation.py).
+## Preparing images for evaluation <a name="Preparing"></a>
 In order to apply and evaluate segmentation models, images must be in a dictionary with the following structure:
 
 ```python 3
@@ -40,7 +46,7 @@ for image in images:
         segmentations["Rater_Name"][image] = [segmentation_file_names]
 ```
 
-## GetMeasures
+## GetMeasures <a name="GetMeasures"></a>
 Get Measures of applying Neural Network <model> to an image and its evaluation by SimpleITK filters. These measures will be saved in a csv file. Here is an example of how to apply this method. 
 ```python 3
 
@@ -58,7 +64,7 @@ Images and GTs must be in axial plane, as it is shown in the following pictures.
 <img width="1066" alt="spacial location2" src="https://user-images.githubusercontent.com/72487236/117939847-61f8cf80-b300-11eb-8a4e-a14b9818c9b8.png">
 
 
-## ShowDataframeStats
+## ShowDataframeStats <a name="ShowDataframeStats"></a>
 This function makes a summary of the results obtained from applying the different models. It is neccesary to provide a common path where these results are located.
 
 
@@ -104,13 +110,16 @@ mix_TL_mic      Both_Lungs  0.897843  0.980992  0.636253
                                     .
 </pre>
 
-## ShowGT
+## ShowGT <a name="ShowGT"></a>
 
 This function show all GTs that are in the dictionary _segmentations_ and their labels. 
 
 ```python 3
-ShowGT(segmentations,flip_GT)
+ShowGT(segmentations,flip_GT)  
 ```
     
 <img width="995" alt="showGT" src="https://user-images.githubusercontent.com/72487236/117799476-0e2baf00-b24a-11eb-9d1c-5c47b10c038a.png">
 
+---
+    
+# Statistical Analysis <a name="Analysis"></a>
