@@ -1,4 +1,4 @@
-# Image Segmentation-Evaluation
+# Image Segmentation Evaluation
 Evaluating segmentation algorithms using SimpleITK filters (Python) and results of statistical analysis (R) in order to demonstrate the statistical significance of comparisons between used models.
 
 ---
